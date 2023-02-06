@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+        <record id="rule_user_colleague_restriction_system" model="ir.rule">
+            <field name="name">Allow System to Access All Users</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+        </record>
+        <record id="rule_user_colleague_restriction_user" model="ir.rule">
+            <field name="name">Restrict Users to Colleagues</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="domain_force">[('colleague_user_ids', 'in', user.ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user')), (4, ref('base.group_portal'))]"/>
+        </record>
+        <record id="rule_partner_colleague_restriction_system" model="ir.rule">
+            <field name="name">Allow System to Access All Partners</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+        </record>
+        <record id="rule_partner_colleague_restriction_user" model="ir.rule">
+            <field name="name">Restrict Partners to Colleagues</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">['|', ('user_ids', '=', False), ('user_ids.colleague_user_ids', 'in', user.ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user')), (4, ref('base.group_portal'))]"/>
+        </record>
+    </data>
+</odoo>
